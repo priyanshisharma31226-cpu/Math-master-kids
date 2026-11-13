@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Little Math Stars</title>
+<style>
+body{font-family:Arial;text-align:center;background:#eaf3ff;color:#333;padding:20px}
+h1{color:#6658e8}
+.card{background:white;padding:25px;border-radius:22px;max-width:420px;margin:auto;box-shadow:0 5px 20px #ccc}
+button{padding:15px;margin:7px;border:0;border-radius:12px;background:#6658e8;color:white;font-size:20px;cursor:pointer}
+#question{font-size:38px;font-weight:bold;margin:25px}
+#message{font-size:22px;color:green}
+select{padding:12px;border-radius:10px;font-size:17px}
+</style>
+</head>
+<body>
+<div class="card">
+<h1>⭐ Little Math Stars ⭐</h1>
+<h3>Learn Maths / गणित सीखें</h3>
+<select id="operation">
+<option value="add">Addition / जोड़</option>
+<option value="sub">Subtraction / घटाव</option>
+<option value="mul">Multiplication / गुणा</option>
+<option value="div">Division / भाग</option>
+</select>
+<div id="question">2 + 3 = ?</div>
+<div id="answers"></div>
+<h2 id="message">Let's Play! / खेलें!</h2>
+<h3>⭐ Score: <span id="score">0</span></h3>
+<button onclick="newQuestion()">Next / अगला</button>
+</div>
+<script>
+let answer=0,score=0;
+function newQuestion(){
+let op=document.getElementById("operation").value;
+let a=Math.floor(Math.random()*10)+1;
+let b=Math.floor(Math.random()*10)+1;
+let symbol="+";
+if(op==="add"){answer=a+b;symbol="+"}
+if(op==="sub"){if(a<b)[a,b]=[b,a];answer=a-b;symbol="−"}
+if(op==="mul"){answer=a*b;symbol="×"}
+if(op==="div"){answer=a;a=b*a;answer=a/b;symbol="÷"}
+document.getElementById("question").innerText=
+(a+" "+symbol+" "+b+" = ?");
+let options=new Set([answer]);
+while(options.size<4){
+options.add(Math.max(0,answer+Math.floor(Math.random()*9)-4));
+}
+let box=document.getElementById("answers");
+box.innerHTML="";
+[...options].sort(()=>Math.random()-.5).forEach(n=>{
+let btn=document.createElement("button");
+btn.innerText=n;
+btn.onclick=()=>check(n);
+box.appendChild(btn);
+});
+document.getElementById("message").innerText="Choose the answer!";
+}
+function check(n){
+if(n===answer){
+score++;
+document.getElementById("message").innerText="Correct! शाबाश! 🎉";
+}else{
+document.getElementById("message").innerText="Try Again! सही जवाब: "+answer;
+}
+document.getElementById("score").innerText=score;
+}
+newQuestion(); 
+</script>
+</body>
+</html>
